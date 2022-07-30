@@ -1,18 +1,19 @@
 import *as React from "react";
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from "react-native-vector-icons/Ionicons"
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { RFValue } from "react-native-responsive-fontsize";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 import Feed from "../screens/Feed";
 import CreatePost from "../screens/CreatePost";
 
-const Tab = createBottomTabNavigator()
+const Tab = createMaterialBottomTabNavigator()
 
-const bottomTabNavigator=()=> {
+const BottomTabNavigator=()=> {
   return (
-      <Tab.Navigator screenOptions={({route})=>({
+      <Tab.Navigator labeled={false}
+      barStyle={styles.bottomTabStyle}
+      screenOptions={({route})=>({
         tabBarIcon:({focused,color,size})=>{
             var iconName
             if (route.name==="Feed") {
@@ -20,13 +21,29 @@ const bottomTabNavigator=()=> {
             } else if(route.name==="CreatePost"){
               iconName=focused?"create":"create-outline"
             }
-            return <Ionicons name={iconName} size={size} color={color} />
-        }
-      })} tabBarOptions={{activeTintColor:"tomato",inactiveTintColor:"gray" }}>
+            return <Ionicons name={iconName} size={size} color={color} style={styles.icons}/>
+        },
+      })} activeColor={"tomato"} inactiveColor={"gray"} >
         <Tab.Screen name="Feed" component={Feed} />
 
         <Tab.Screen name="CreatePost" component={CreatePost} />
       </Tab.Navigator>
   );
 }
-export default bottomTabNavigator
+const styles = StyleSheet.create({
+  bottomTabStyle: {
+    backgroundColor: "#2f345d",
+    height: "8%",
+    borderTopLeftRadius: RFValue(30),
+    borderTopRightRadius: RFValue(30),
+    overflow: "hidden",
+    position: "absolute"
+  },
+  icons:{
+
+  }
+});
+
+
+
+export default BottomTabNavigator
